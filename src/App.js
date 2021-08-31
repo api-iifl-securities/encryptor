@@ -37,7 +37,7 @@ class MainComponent extends React.Component {
     super(props)
     this.state = {
       showResults: false, encryptedClientCode: null, encryptedPassword: null, encryptedDOB: null,
-      encryptionKey: null, Email: null, Password: null, DOB: null
+      encryptionKey: null, ClientCode: null, Password: null, DOB: null
     }
   }
 
@@ -46,10 +46,6 @@ class MainComponent extends React.Component {
       return true
     }
     return false
-  }
-
-  isValidEmail = () => {
-    return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(this.state.Email)
   }
 
   updateResults = () => {
