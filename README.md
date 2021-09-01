@@ -1,7 +1,11 @@
 ### Encryptor
 
-The encryptor can help you encrypt your demat account credentials using your encryption key. The application is specifically built for IIFL Securities demat account customers who have generated API keys and want to encrypt the credentials to use in the login APIs.
+This is a 100% client-side application(does not store any credentials) to encrypt your credentials to use along with the 5paisa trading APIs.
 
-The application doesn't store any of the credentials and built specifically to encrypt the parameters.
+API docs are available at https://www.5paisa.com/developerapi/docs
 
-You can refer to the API documentation at https://api.iiflsecurities.com/.
+
+### TODO
+ - DOB only allow numbers
+ - Beautification
+ - Any other disclaimers in the footer
