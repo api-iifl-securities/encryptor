@@ -13,8 +13,8 @@ function Results(props) {
     <Content>
       <Card>
         <Row>
-          <Col span={12} style={{ textAlign: "left" }}><Text strong style={{ textAlign: "left" }}>Encrypted Client Code</Text></Col>
-          <Col span={12} style={{ textAlign: "right" }}><Text copyable>{props.encryptedClientCode}</Text></Col>
+          <Col span={12} style={{ textAlign: "left" }}><Text strong style={{ textAlign: "left" }}>Encrypted Email</Text></Col>
+          <Col span={12} style={{ textAlign: "right" }}><Text copyable>{props.encryptedEmail}</Text></Col>
         </Row>
         <Divider />
         <Row>
@@ -36,8 +36,8 @@ class MainComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showResults: false, encryptedClientCode: null, encryptedPassword: null, encryptedDOB: null,
-      encryptionKey: null, ClientCode: null, Password: null, DOB: null
+      showResults: false, encryptedEmail: null, encryptedPassword: null, encryptedDOB: null,
+      encryptionKey: null, Email: null, Password: null, DOB: null
     }
   }
 
@@ -48,20 +48,28 @@ class MainComponent extends React.Component {
     return false
   }
 
+  isValidEmail = () => {
+    return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(this.state.Email)
+  }
+
   updateResults = () => {
     if (this.isEmpty(this.state.encryptionKey)) {
       message.error("Please provide encryption key", 1.5)
       this.setState({ showResults: false })
       return
     }
-    if (this.isEmpty(this.state.ClientCode) && this.isEmpty(this.state.Password) && this.isEmpty(this.state.DOB)) {
+    if (this.isEmpty(this.state.Email) && this.isEmpty(this.state.Password) && this.isEmpty(this.state.DOB)) {
       message.error("Please provide something to encrypt", 1.5)
       this.setState({ showResults: false })
       return
     }
-    if (!this.isEmpty(this.state.ClientCode)) {
-      const encryptedClientCode = encrypt(this.state.ClientCode, this.state.encryptionKey)
-      this.setState({ encryptedClientCode: encryptedClientCode })
+    if (!this.isValidEmail()) {
+      message.error("Please provide a valid email address")
+      return
+    }
+    if (!this.isEmpty(this.state.Email)) {
+      const encryptedEmail = encrypt(this.state.Email, this.state.encryptionKey)
+      this.setState({ encryptedEmail: encryptedEmail })
     }
     if (!this.isEmpty(this.state.Password)) {
       const encryptedPassword = encrypt(this.state.Password, this.state.encryptionKey)
@@ -78,8 +86,8 @@ class MainComponent extends React.Component {
     this.setState({ encryptionKey: event.target.value })
   }
 
-  updateClientCode = (event) => {
-    this.setState({ ClientCode: event.target.value })
+  updateEmail = (event) => {
+    this.setState({ Email: event.target.value })
   }
 
   updatePassword = (event) => {
@@ -110,8 +118,8 @@ class MainComponent extends React.Component {
               onKeyPress={event => { if (event.key === "Enter" && this.state.encryptionKey !== null) this.updateResults() }}>
 
             </Input>
-            <Input size="large" placeholder="Enter your client code" onChange={this.updateClientCode}
-              onKeyPress={event => { if (event.key === "Enter" && this.state.ClientCode !== null) this.updateResults() }}>
+            <Input size="large" placeholder="Enter your email" onChange={this.updateEmail}
+              onKeyPress={event => { if (event.key === "Enter" && this.state.Email !== null) this.updateResults() }}>
             </Input>
             <Input.Password size="large" placeholder="Enter your password" onChange={this.updatePassword}
               onKeyPress={event => { if (event.key === "Enter" && this.state.Password !== null) this.updateResults() }}>
@@ -125,7 +133,7 @@ class MainComponent extends React.Component {
           </Content>
         </Layout>
         <Layout>
-          {this.state.showResults ? <Results encryptedClientCode={this.state.encryptedClientCode}
+          {this.state.showResults ? <Results encryptedEmail={this.state.encryptedEmail}
             encryptedPassword={this.state.encryptedPassword}
             encryptedDOB={this.state.encryptedDOB} /> : null}
         </Layout>
